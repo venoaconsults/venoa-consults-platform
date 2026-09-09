@@ -1,0 +1,1 @@
+function showView(name){['website','creator','admin'].forEach(v=>{document.getElementById('view-'+v).classList.toggle('active',v===name);document.getElementById('tab-'+v).classList.toggle('active',v===name)});window.scrollTo({top:0,behavior:'smooth'});}
