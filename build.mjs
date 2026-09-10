@@ -34,7 +34,6 @@ async function main() {
     throw new Error(`V4 source integrity mismatch. Expected ${EXPECTED_SHA256}, got ${hash}`);
   }
 
-  // Production-safe presentation cleanup. This does not alter the V4 application logic.
   html = html
     .replaceAll('Venoa Consults — Interactive Preview V4', 'Venoa Consults — Influence. Distribution. Growth.')
     .replaceAll('Interactive Preview V4', 'Venoa Consults Platform')
@@ -42,7 +41,7 @@ async function main() {
     .replaceAll('Preview backend', 'Platform demo data layer')
     .replaceAll('PREVIEW_SENT', 'QUEUED');
 
-  await mkdir('dist', { recursive: true });
+  await mkdir('dist/.well-known', { recursive: true });
   await writeFile('dist/index.html', html, 'utf8');
   await writeFile('dist/robots.txt', 'User-agent: *\nAllow: /\nSitemap: https://www.venoaconsults.com/sitemap.xml\n', 'utf8');
   await writeFile('dist/sitemap.xml', '<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"><url><loc>https://www.venoaconsults.com/</loc><changefreq>weekly</changefreq><priority>1.0</priority></url></urlset>\n', 'utf8');
