@@ -1,11 +1,11 @@
 {
   "name": "venoa-consults-platform",
-  "version": "4.0.1",
+  "version": "4.0.2",
   "private": true,
   "scripts": {
     "build": "node build.mjs"
   },
   "engines": {
-    "node": ">=20"
+    "node": "24.x"
   }
 }
