@@ -1,0 +1,32 @@
+import { mkdir, readFile, writeFile } from 'node:fs/promises';
+import { gunzipSync } from 'node:zlib';
+import { createHash } from 'node:crypto';
+
+const EXPECTED_SHA256 = '7560d9da1973ee5a8b8aab1845189215819408cc7d562294b3a4abc0904f426c';
+
+async function main() {
+  const parts = [];
+  for (let i = 1; i <= 5; i++) {
+    parts.push((await readFile(`v4/chunk${i}.txt`, 'utf8')).trim());
+  }
+  const base64 = parts.join('');
+  if (!/^[A-Za-z0-9+/]+={0,2}$/.test(base64)) throw new Error('V4 bundle contains invalid Base64 characters.');
+
+  const html = gunzipSync(Buffer.from(base64, 'base64')).toString('utf8');
+  const hash = createHash('sha256').update(html).digest('hex');
+  if (hash !== EXPECTED_SHA256) throw new Error(`V4 integrity mismatch: ${hash}`);
+  if (!html.startsWith('<!doctype html>') || !html.includes('Venoa Consults') || !html.includes('vcs-v4-motion-engine')) {
+    throw new Error('V4 HTML integrity markers failed.');
+  }
+
+  await mkdir('dist/.well-known', { recursive: true });
+  await writeFile('dist/index.html', html, 'utf8');
+  await writeFile('dist/robots.txt', 'User-agent: *\nAllow: /\nSitemap: https://www.venoaconsults.com/sitemap.xml\n', 'utf8');
+  await writeFile('dist/sitemap.xml', '<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"><url><loc>https://www.venoaconsults.com/</loc><changefreq>weekly</changefreq><priority>1.0</priority></url></urlset>\n', 'utf8');
+  await writeFile('dist/.well-known/security.txt', 'Contact: mailto:info@venoaconsults.com\nCanonical: https://www.venoaconsults.com/.well-known/security.txt\n', 'utf8');
+  await writeFile('dist/404.html', '<!doctype html><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Venoa Consults — Page not found</title><style>body{margin:0;min-height:100vh;display:grid;place-items:center;background:#061B27;color:#F4EEE5;font-family:system-ui}.x{text-align:center;padding:32px}a{color:#F4EEE5}</style><div class="x"><h1>404</h1><p>This page does not exist.</p><a href="/">Return to Venoa Consults</a></div>', 'utf8');
+  console.log(`VCS V4 integrity verified: ${hash}`);
+  console.log(`Built ${html.length} characters to dist/index.html`);
+}
+
+main().catch((err) => { console.error(err); process.exit(1); });
