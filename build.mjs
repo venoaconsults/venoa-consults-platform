@@ -19,6 +19,9 @@ async function main() {
 
   let html = source;
   html = html.replace('<title>Venoa Consults — Interactive Preview V4</title>', '<title>Venoa Consults — Influence. Distribution. Growth.</title>');
+  if (!html.includes('href="/favicon.png"')) {
+    html = html.replace('</head>', '  <link rel="icon" type="image/png" sizes="64x64" href="/favicon.png">\n  <link rel="shortcut icon" href="/favicon.png">\n</head>');
+  }
   html = html.replace(/\n\s*<div class="preview-strip">[\s\S]*?<\/div>\s*<\/div>\s*\n\s*<header class="site-header"/, '\n\n  <header class="site-header"');
   html = html.replace('aria-label="Preview areas"', 'aria-label="Platform areas"');
   html = html.replace('Nothing is fabricated in this preview.', 'Only brands added by VCS are displayed here.');
@@ -51,8 +54,12 @@ async function main() {
     throw new Error('Test/browser-decompression deployment code detected in production output.');
   }
 
+  const faviconBase64 = (await readFile('assets/favicon.b64', 'utf8')).trim();
+  if (!/^[A-Za-z0-9+/]+={0,2}$/.test(faviconBase64)) throw new Error('Favicon asset contains invalid Base64 characters.');
+
   await mkdir('dist/.well-known', { recursive: true });
   await writeFile('dist/index.html', html, 'utf8');
+  await writeFile('dist/favicon.png', Buffer.from(faviconBase64, 'base64'));
   await writeFile('dist/robots.txt', 'User-agent: *\nAllow: /\nSitemap: https://www.venoaconsults.com/sitemap.xml\n', 'utf8');
   await writeFile('dist/sitemap.xml', '<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"><url><loc>https://www.venoaconsults.com/</loc><changefreq>weekly</changefreq><priority>1.0</priority></url></urlset>\n', 'utf8');
   await writeFile('dist/.well-known/security.txt', 'Contact: mailto:info@venoaconsults.com\nCanonical: https://www.venoaconsults.com/.well-known/security.txt\n', 'utf8');
@@ -60,6 +67,7 @@ async function main() {
 
   const outputHash = createHash('sha256').update(html).digest('hex');
   console.log(`VCS V4 source verified: ${hash}`);
+  console.log(`VCS V4 favicon asset: ${faviconBase64.length} base64 chars`);
   console.log(`VCS V4 production output: ${outputHash} (${html.length} chars)`);
 }
 
