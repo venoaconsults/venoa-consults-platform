@@ -1,9 +1,9 @@
 {
   "name": "venoa-consults-platform",
-  "version": "4.0.6",
+  "version": "4.0.7",
   "private": true,
   "scripts": {
-    "build": "node build.mjs && node brand-hotfix.mjs && node creator-controls-hotfix.mjs && node reels-hotfix.mjs && node stability-hotfix.mjs"
+    "build": "node build.mjs && node brand-hotfix.mjs && node creator-controls-hotfix.mjs && node reels-hotfix.mjs && node stability-hotfix.mjs && node production-hardening.mjs"
   },
   "engines": {
     "node": "24.x"
