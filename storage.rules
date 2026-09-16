@@ -1,0 +1,59 @@
+rules_version = '2';
+
+service firebase.storage {
+  match /b/{bucket}/o {
+    function signedIn() {
+      return request.auth != null;
+    }
+
+    function superAdmin() {
+      return signedIn()
+        && request.auth.token.email == "venoaconsults@gmail.com"
+        && request.auth.token.email_verified == true;
+    }
+
+    function creatorOwner(uid) {
+      return signedIn() && request.auth.uid == uid;
+    }
+
+    match /creator-profiles/{uid}/{fileName} {
+      allow read: if superAdmin() || creatorOwner(uid);
+      allow write: if (superAdmin() || creatorOwner(uid))
+        && request.resource.size < 5 * 1024 * 1024
+        && request.resource.contentType.matches('image/(jpeg|png|webp)');
+    }
+
+    match /public-creators/{uid}/{fileName} {
+      allow read: if true;
+      allow write: if superAdmin()
+        && request.resource.size < 5 * 1024 * 1024
+        && request.resource.contentType.matches('image/(jpeg|png|webp)');
+    }
+
+    match /brands/{allPaths=**} {
+      allow read: if true;
+      allow write: if superAdmin();
+    }
+
+    match /reels/{allPaths=**} {
+      allow read: if true;
+      allow write: if superAdmin();
+    }
+
+    match /pages/{allPaths=**} {
+      allow read: if true;
+      allow write: if superAdmin();
+    }
+
+    match /portfolio/{fileName} {
+      allow read: if true;
+      allow write: if superAdmin()
+        && request.resource.size < 15 * 1024 * 1024
+        && request.resource.contentType == 'application/pdf';
+    }
+
+    match /{allPaths=**} {
+      allow read, write: if false;
+    }
+  }
+}
