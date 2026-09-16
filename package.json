@@ -1,9 +1,9 @@
 {
   "name": "venoa-consults-platform",
-  "version": "6.0.0",
+  "version": "7.0.0",
   "private": true,
   "scripts": {
-    "build": "node build-static.mjs"
+    "build": "node build-v7.mjs"
   },
   "engines": {
     "node": "24.x"
