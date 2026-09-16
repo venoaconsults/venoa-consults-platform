@@ -1,0 +1,174 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Venoa Consults — Influence. Distribution. Growth.</title>
+  <meta name="description" content="Venoa Consults — influencer marketing, creator sourcing, digital distribution and campaign execution.">
+  <meta name="theme-color" content="#061B27">
+  <link rel="icon" type="image/png" href="/favicon.png">
+  <link rel="canonical" href="https://www.venoaconsults.com/">
+  <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+  <header class="site-header">
+    <a class="brand" href="#home" aria-label="Venoa Consults home">
+      <span class="brand-mark">VCS</span>
+      <span><strong>Venoa Consults</strong><small>Influence. Distribution. Growth.</small></span>
+    </a>
+    <button id="menu-toggle" class="menu-toggle" type="button" aria-expanded="false" aria-controls="site-nav">Menu</button>
+    <nav id="site-nav" class="site-nav" aria-label="Primary navigation">
+      <a href="#about">About</a>
+      <a href="#services">Services</a>
+      <a href="#reels">Reels</a>
+      <a href="#brands">Brands</a>
+      <a href="#pages">Digital Pages</a>
+      <a href="#campaigns">Campaigns</a>
+      <a href="#creator-portal" data-route="creator">Creator</a>
+      <a href="#contact">Contact</a>
+      <a href="#admin-portal" data-route="admin" class="nav-admin">Admin</a>
+    </nav>
+  </header>
+
+  <main id="public-site">
+    <section id="home" class="hero section">
+      <div class="shell hero-grid">
+        <div>
+          <p class="eyebrow">Venoa Consults · Mumbai</p>
+          <h1>Influence.<br><span>Distribution.</span><br>Growth.</h1>
+          <p class="hero-copy">Influencer marketing, creator sourcing, digital pages marketing and campaign execution built for brands that need measurable social distribution.</p>
+          <div class="actions">
+            <button type="button" class="btn primary" data-action="campaign-enquiry">Start a campaign</button>
+            <a class="btn secondary" href="#creator-portal" data-route="creator">Join as Creator</a>
+          </div>
+          <div class="status-strip">
+            <span id="firebase-status">Connecting secure backend…</span>
+            <span>Creator roster private by default</span>
+            <span>Admin access restricted</span>
+          </div>
+        </div>
+        <div class="hero-card" aria-label="VCS campaign platform overview">
+          <div class="hero-card-top"><span>VCS Campaign Engine</span><span class="live-dot">●</span></div>
+          <div class="hero-card-body">
+            <strong>Creator sourcing</strong>
+            <strong>Reels & content</strong>
+            <strong>Digital distribution</strong>
+            <strong>Campaign execution</strong>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="about" class="section light">
+      <div class="shell split">
+        <div><p class="eyebrow">About VCS</p><h2>Creator-led distribution with structured campaign operations.</h2></div>
+        <div><p>Venoa Consults works across influencer marketing, digital pages, creator sourcing, content amplification and campaign execution. The platform separates public marketing content, private creator data and restricted Admin operations.</p></div>
+      </div>
+    </section>
+
+    <section id="services" class="section">
+      <div class="shell">
+        <div class="section-head"><p class="eyebrow">Services</p><h2>Built around influence and distribution.</h2></div>
+        <div class="cards three">
+          <article class="card"><span>01</span><h3>Influencer Marketing</h3><p>Creator discovery, shortlisting, outreach, execution and campaign coordination.</p></article>
+          <article class="card"><span>02</span><h3>Digital Pages Marketing</h3><p>Distribution through managed or partner social pages based on campaign requirements.</p></article>
+          <article class="card"><span>03</span><h3>Campaign Strategy & Execution</h3><p>Brief development, creator matching, timelines, deliverables and reporting structure.</p></article>
+          <article class="card"><span>04</span><h3>Creator Sourcing</h3><p>Location, niche, follower and campaign-fit creator sourcing with private internal notes.</p></article>
+          <article class="card"><span>05</span><h3>Content Amplification</h3><p>Extend campaign content through social distribution and selected digital pages.</p></article>
+          <article class="card"><span>06</span><h3>Social Media Distribution</h3><p>Campaign-focused publishing and amplification across relevant social inventory.</p></article>
+        </div>
+      </div>
+    </section>
+
+    <section id="reels" class="section dark">
+      <div class="shell">
+        <div class="section-head"><p class="eyebrow">Reels Showcase</p><h2>Campaign work, reflected from the source.</h2></div>
+        <div id="public-reels" class="media-grid"><div class="empty">No public reels published yet.</div></div>
+      </div>
+    </section>
+
+    <section id="brands" class="section light">
+      <div class="shell">
+        <div class="section-head"><p class="eyebrow">Brands</p><h2>Published brand relationships.</h2></div>
+        <div id="public-brands" class="cards three"><div class="empty">No public brands published yet.</div></div>
+      </div>
+    </section>
+
+    <section id="pages" class="section">
+      <div class="shell">
+        <div class="section-head"><p class="eyebrow">Digital Pages</p><h2>Distribution inventory managed from Admin.</h2></div>
+        <div id="public-pages" class="cards three"><div class="empty">No public digital pages published yet.</div></div>
+      </div>
+    </section>
+
+    <section id="campaigns" class="section light">
+      <div class="shell">
+        <div class="section-head"><p class="eyebrow">Creator Opportunities</p><h2>Active campaign opportunities.</h2></div>
+        <div id="public-campaigns" class="cards three"><div class="empty">No active public campaigns right now.</div></div>
+      </div>
+    </section>
+
+    <section id="contact" class="section dark">
+      <div class="shell split">
+        <div><p class="eyebrow">Start a Campaign</p><h2>Tell VCS what you need distributed.</h2><p>Campaign enquiries are saved to the secure backend and visible only to the Super Admin.</p></div>
+        <form id="contact-form" class="form-card">
+          <label>Full name<input name="name" required></label>
+          <label>Company / Brand<input name="company" required></label>
+          <label>Work email<input name="email" type="email" required></label>
+          <label>Phone / WhatsApp<input name="phone" required></label>
+          <label>Service interest<select name="service" required>
+            <option value="">Select</option><option>Influencer Marketing</option><option>Digital Pages Marketing</option><option>Campaign Strategy & Execution</option><option>Creator Sourcing</option><option>Content Amplification</option><option>Social Media Distribution</option>
+          </select></label>
+          <label>Requirement<textarea name="requirement" rows="4"></textarea></label>
+          <label class="check"><input name="consent" type="checkbox" required> I consent to VCS contacting me about this enquiry.</label>
+          <button class="btn light-btn" type="submit">Submit enquiry</button>
+          <p class="form-status" data-status-for="contact-form"></p>
+        </form>
+      </div>
+    </section>
+  </main>
+
+  <section id="creator-portal" class="portal section" aria-labelledby="creator-heading">
+    <div class="shell">
+      <div class="portal-top">
+        <div><p class="eyebrow">Creator Portal</p><h2 id="creator-heading">VCS Creator Access</h2></div>
+        <a href="#home" class="btn ghost" data-route="website">Back to website</a>
+      </div>
+      <div id="creator-root" class="portal-root">
+        <div class="panel"><p>Loading creator authentication…</p></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="admin-portal" class="portal section" aria-labelledby="admin-heading">
+    <div class="shell">
+      <div class="portal-top">
+        <div><p class="eyebrow">Restricted</p><h2 id="admin-heading">VCS Super Admin</h2></div>
+        <a href="#home" class="btn ghost" data-route="website">Back to website</a>
+      </div>
+      <div id="admin-root" class="portal-root">
+        <div class="panel"><p>Loading secure Admin authentication…</p></div>
+      </div>
+    </div>
+  </section>
+
+  <footer class="footer">
+    <div class="shell footer-grid">
+      <div><span class="brand-mark">VCS</span><p>Venoa Consults<br>Influence. Distribution. Growth.</p></div>
+      <div><strong>Contact</strong><a href="mailto:info@venoaconsults.com">info@venoaconsults.com</a><a href="tel:+918097336121">+91 80973 36121</a><span>Bandra West, Mumbai</span></div>
+      <div><strong>Creator Operations</strong><a href="mailto:marketing@venoaconsults.com">marketing@venoaconsults.com</a><a href="https://www.instagram.com/venoaconsults/" target="_blank" rel="noopener">@venoaconsults</a></div>
+    </div>
+  </footer>
+
+  <div id="modal" class="modal" hidden>
+    <div class="modal-backdrop" data-action="close-modal"></div>
+    <div class="modal-card" role="dialog" aria-modal="true" aria-labelledby="modal-title">
+      <button class="modal-close" type="button" data-action="close-modal" aria-label="Close">×</button>
+      <div id="modal-body"></div>
+    </div>
+  </div>
+
+  <script defer src="/shell.js"></script>
+  <script type="module" src="/app.js"></script>
+</body>
+</html>
