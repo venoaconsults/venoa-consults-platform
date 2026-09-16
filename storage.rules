@@ -18,16 +18,18 @@ service firebase.storage {
 
     match /creator-profiles/{uid}/{fileName} {
       allow read: if superAdmin() || creatorOwner(uid);
-      allow write: if (superAdmin() || creatorOwner(uid))
+      allow create, update: if (superAdmin() || creatorOwner(uid))
         && request.resource.size < 5 * 1024 * 1024
         && request.resource.contentType.matches('image/(jpeg|png|webp)');
+      allow delete: if superAdmin() || creatorOwner(uid);
     }
 
     match /public-creators/{uid}/{fileName} {
       allow read: if true;
-      allow write: if superAdmin()
+      allow create, update: if superAdmin()
         && request.resource.size < 5 * 1024 * 1024
         && request.resource.contentType.matches('image/(jpeg|png|webp)');
+      allow delete: if superAdmin();
     }
 
     match /brands/{allPaths=**} {
@@ -47,9 +49,10 @@ service firebase.storage {
 
     match /portfolio/{fileName} {
       allow read: if true;
-      allow write: if superAdmin()
+      allow create, update: if superAdmin()
         && request.resource.size < 15 * 1024 * 1024
         && request.resource.contentType == 'application/pdf';
+      allow delete: if superAdmin();
     }
 
     match /{allPaths=**} {
