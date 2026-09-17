@@ -9,19 +9,21 @@ await mkdir(OUT,{recursive:true});
 await mkdir(`${OUT}/admin`,{recursive:true});
 await mkdir(`${OUT}/creator`,{recursive:true});
 
-for (const file of ["index.html","styles.css","shell.js","app.js","firebase-core.js"]) {
+for (const file of ["index.html","styles.css","features.css","shell.js","app.js","features.js","firebase-core.js"]) {
   await copyFile(`${SRC}/${file}`,`${OUT}/${file}`);
 }
 
-execFileSync(process.execPath,["--check",`${SRC}/shell.js`],{stdio:"inherit"});
-execFileSync(process.execPath,["--check",`${SRC}/app.js`],{stdio:"inherit"});
-execFileSync(process.execPath,["--check",`${SRC}/firebase-core.js`],{stdio:"inherit"});
+for (const file of ["shell.js","app.js","features.js","firebase-core.js"]) {
+  execFileSync(process.execPath,["--check",`${SRC}/${file}`],{stdio:"inherit"});
+}
 
-const [html,css,shell,app,firebase]=await Promise.all([
+const [html,css,featureCss,shell,app,features,firebase]=await Promise.all([
   readFile(`${SRC}/index.html`,"utf8"),
   readFile(`${SRC}/styles.css`,"utf8"),
+  readFile(`${SRC}/features.css`,"utf8"),
   readFile(`${SRC}/shell.js`,"utf8"),
   readFile(`${SRC}/app.js`,"utf8"),
+  readFile(`${SRC}/features.js`,"utf8"),
   readFile(`${SRC}/firebase-core.js`,"utf8")
 ]);
 
@@ -40,14 +42,24 @@ const requiredApp=[
 ];
 for(const marker of requiredApp) if(!app.includes(marker)) throw new Error(`Missing V7 app marker: ${marker}`);
 
+const requiredFeatures=[
+  '["brands","brands"]','vf-brand-marquee','vf-reel-stack','vf-pages-grid','vf-campaign-list',
+  'Creator Intelligence','listCollection("creators")','IntersectionObserver','vf-like-btn'
+];
+for(const marker of requiredFeatures) if(!features.includes(marker)) throw new Error(`Missing feature integration marker: ${marker}`);
+
 const requiredFirebase=[
   'projectId: "venoa-constuls"','SUPER_ADMIN_USERNAME = "admin"',
   "signInWithEmailAndPassword","sendEmailVerification","GoogleAuthProvider","getFirestore","getStorage"
 ];
 for(const marker of requiredFirebase) if(!firebase.includes(marker)) throw new Error(`Missing Firebase marker: ${marker}`);
 
-if(/Admin@8097/.test(html+app+firebase)) throw new Error("Admin password must never be embedded in frontend source.");
-if(/\batob\s*\(|DecompressionStream/.test(html+app+firebase)) throw new Error("Unsafe browser decompression code detected.");
+const forbiddenPlaceholders=["Lumen Skincare","Ritika Sen","Northwind Sport","Aura Home","Kicksy","Metro Culture Digest"];
+for(const marker of forbiddenPlaceholders){
+  if((html+features).includes(marker)) throw new Error(`Sample feature placeholder detected: ${marker}`);
+}
+if(/Admin@8097/.test(html+app+features+firebase)) throw new Error("Admin password must never be embedded in frontend source.");
+if(/\batob\s*\(|DecompressionStream/.test(html+app+features+firebase)) throw new Error("Unsafe browser decompression code detected.");
 
 const faviconB64=(await readFile("assets/favicon.b64","utf8")).trim();
 await writeFile(`${OUT}/favicon.png`,Buffer.from(faviconB64,"base64"));
@@ -59,6 +71,6 @@ await writeFile(`${OUT}/robots.txt`,"User-agent: *\nAllow: /\nSitemap: https://w
 await writeFile(`${OUT}/sitemap.xml`,'<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"><url><loc>https://www.venoaconsults.com/</loc></url></urlset>\n');
 await writeFile(`${OUT}/404.html`,html.replace("<title>Venoa Consults — Influence. Distribution. Growth.</title>","<title>Page not found — Venoa Consults</title>"));
 
-const hash=createHash("sha256").update(html+css+shell+app+firebase).digest("hex");
-console.log(`VCS V7 core build verified: ${hash}`);
-console.log(`HTML=${html.length} CSS=${css.length} SHELL=${shell.length} APP=${app.length} FIREBASE=${firebase.length}`);
+const hash=createHash("sha256").update(html+css+featureCss+shell+app+features+firebase).digest("hex");
+console.log(`VCS V7.1 feature build verified: ${hash}`);
+console.log(`HTML=${html.length} CSS=${css.length} FEATURE_CSS=${featureCss.length} SHELL=${shell.length} APP=${app.length} FEATURES=${features.length} FIREBASE=${firebase.length}`);
